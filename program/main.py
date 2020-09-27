@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import tkinter as tk
 import requests as rq
 import threading as tr
@@ -38,10 +39,16 @@ win.iconphoto(False, winIcon)
 building = False
 
 # Important things
-lst=[["Faithful","1.16.3","32","vanilla","https://github.com/seirin-blu/Faithful/raw/releases/Faithful-1.16.3.zip"],
-    ["Faithful","1.14","32","vanilla","https://raw.githubusercontent.com/FaithfulTeam/Faithful/releases/1.14.zip"],
-    ["Faithful","1.12","32","vanilla","https://github.com/FaithfulTeam/Faithful/raw/releases/1.12.zip"],
-    ["Faithful","1.8","32","vanilla","https://static.planetminecraft.com/files/resource_media/texture/faithful-1-8-for-pvp.zip"]]
+try:
+    lstweb = rq.get("https://raw.githubusercontent.com/nsde/files/master/tps")
+    lst = lstweb.text
+    lst = json.loads(lst)
+    print(lst)
+
+except: # no connection etc.
+    # demo for testing
+    lst=[["DEMO","0","0","DEMO","0",""]],
+
 
 
 def download(url):
@@ -102,61 +109,36 @@ def downloadTable(url):
     print("STARTING DOWNLOADTHREAD")
     downloadThread()
 
-# Pls dont bully me 4 this crap code :(
-# Better solutions really appreciated! <3
-j=4
-def dlNo0():
-    downloadTable(url=lst[0][j])
-def dlNo1():
-    downloadTable(url=lst[1][j])
-def dlNo2():
-    downloadTable(url=lst[2][j])
-def dlNo3():
-    downloadTable(url=lst[3][j])
-def dlNo4():
-    downloadTable(url=lst[4][j])
-def dlNo5():
-    downloadTable(url=lst[5][j])
-def dlNo6():
-    downloadTable(url=lst[6][j])
-def dlNo7():
-    downloadTable(url=lst[7][j])
-def dlNo8():
-    downloadTable(url=lst[8][j])
-def dlNo9():
-    downloadTable(url=lst[9][j])
-def dlNo10():
-    downloadTable(url=lst[10][j])
-def dlNo11():
-    downloadTable(url=lst[11][j])
-def dlNo12():
-    downloadTable(url=lst[12][j])
+
+j=5
+
+for q in range(len(lst)):
+    exec(f"def dlNo{q}():\n\tdownloadTable(url=lst[{q}][j]")
+
 
 def tableopen():
-    try:
-        tablewin.destroy()
-    except:
-        pass
-
     # Create texturepack list
     class Table: 
         
         def __init__(self, tablewin):
             building = True
-            info = ["Name", "Version", "Pixels", "Style"]
+            info = ["Name", "Version", "Pixels", "Style", "Download"]
 
-            for x in range(4):
+            for x in range(len(info)):
                 self.e = tk.Label(tablewin, text=info[x], fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle)
                 self.e.grid(row=0, column=x)
 
             for i in range(total_rows):
                 for j in range(total_columns):
                     if j == 4:
-                        self.e = tk.Button(tablewin, text='Install', width=10, fg=lightColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle, activebackground=activeColor)
+                        self.e = tk.Button(tablewin, text=lst[i][4] + 'mb', width=10, fg=lightColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle, activebackground=activeColor)
                         exec('self.e["command"] = dlNo' + str(i))
                         print('EXEC\tself.e["command"] = dlNo' + str(i))
                         self.e.grid(row=i+1, column=j)
-                        
+
+                    elif j == 5:
+                        break
+
                     elif j == 0:
                         self.e = tk.Label(tablewin, text=lst[i][j], width=10, fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle) 
                         self.e.grid(row=i+1, column=j) 
@@ -172,11 +154,9 @@ def tableopen():
 
     tablewin = tk.Tk()
     tablewin.config(bg=bgColor)
-    tablewin.title("Texturepack Table")
+    tablewin.title("Texturepacks")
     fileDir = os.path.dirname(os.path.abspath(__file__))
     parentDir = os.path.dirname(fileDir)
-    inactivePath = parentDir + '\\src\\inactive.bmp'
-    tablewin.iconbitmap(inactivePath)
     t = Table(tablewin) 
     tablewin.mainloop() 
 
