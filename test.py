@@ -1,3 +1,2 @@
-exec("def run():\n\tprint('nOP')")
-
+exec("def run():\n\tprint('test')")
 run()
