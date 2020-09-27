@@ -1,4 +1,4 @@
-appVersion = 1.0
+appVersion = 1
 
 import os
 import sys
@@ -37,6 +37,19 @@ winIcon = tk.PhotoImage(file = parentDir + '\\src\\main.png')
 win.title(winTitle)
 win.config(bg=bgColor)
 win.iconphoto(False, winIcon)
+
+print("UPDATE CHECKER")
+try:
+    updc = rq.get("https://raw.githubusercontent.com/nsde/files/master/texturepacks/appversion")
+    newestVersion = int(updc.text)
+
+    if appVersion != newestVersion:
+        if tk.messagebox.askokcancel(title="WARNING", message="There is a newer version avaiable. Do you want to download it?"):
+            web.open("https://github.com/nsde/mctools/releases/")
+
+except:
+    print("CHECK FOR NEWEST VERSION FAILED")
+    win.title("No internet connection")
 
 # Load list of texturepacks
 try:
@@ -126,6 +139,7 @@ for q in range(len(lst)):
 
 
 def tableopen():
+    print("GENERATE TABLE")
     # Create texturepack list
     class Table: 
         
@@ -176,6 +190,8 @@ def exitapp():
     print("BYE!")
     sys.exit(0)
 
+print("GENERATE GUI")
+
 titleTxt = tk.Label(win, text="Styx MCTools", font=('Calibri Light', 50), bg=bgColor, fg=fgColor)
 titleTxt.pack()
 
@@ -190,5 +206,7 @@ dlBtn.pack()
 
 exitBtn = tk.Button(win, text="Exit", command=exitapp, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
 exitBtn.pack()
+
+print("MAINLOOP")
 
 win.mainloop()
