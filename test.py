@@ -1,2 +1,2 @@
-exec("def run():\n\tprint('test')")
-run()
+x = "...h..ee..llo."
+print(x.strip("."))

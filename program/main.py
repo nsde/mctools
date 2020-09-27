@@ -1,3 +1,5 @@
+appVersion = 1.0
+
 import os
 import sys
 import json
@@ -5,6 +7,7 @@ import tkinter as tk
 import requests as rq
 import threading as tr
 from time import sleep
+import webbrowser as web
 from tkinter import messagebox
 
 # Program settings
@@ -35,21 +38,21 @@ win.title(winTitle)
 win.config(bg=bgColor)
 win.iconphoto(False, winIcon)
 
-
-building = False
-
-# Important things
+# Load list of texturepacks
 try:
-    lstweb = rq.get("https://raw.githubusercontent.com/nsde/files/master/tps")
+    lstweb = rq.get("https://raw.githubusercontent.com/nsde/files/master/texturepacks/list.py")
     lst = lstweb.text
     lst = json.loads(lst)
     print(lst)
 
 except: # no connection etc.
     # demo for testing
-    lst=[["DEMO","0","0","DEMO","0",""]],
-
-
+    print("CONNECTION ERROR")
+    lst=[
+            ["Default","1.0","1","DEMO","0","google.com","https://google.com/"],
+            ["Default","1.0","2","DEMO","0","google.com","https://google.com/"],
+            ["Default","1.0","3","DEMO","0","google.com","https://google.com/"]
+        ]
 
 def download(url):
     x = url.split("/")
@@ -65,7 +68,7 @@ def download(url):
 
         try:
             win.title(f"Installing {round(len(myfile.content)/1_048_576, 2)} mb ...")
-            installpath = f"{os.getenv('APPDATA')}\\.minecraft\\resourcepacks\\{filename}"
+            installpath = f"{os.getenv('APPDATA')}\\.minecraft\\resourcepacks\\{filename}.zip"
             installpath = installpath.replace('\\','/')
             print("INSTALLPATH\t" + installpath)
             open(installpath, "wb").write(myfile.content)
@@ -106,14 +109,20 @@ def downloadTable(url):
 
     urlInp.delete(0, "end")
     urlInp.insert("end", url)
-    print("STARTING DOWNLOADTHREAD")
+    print("STARTING DLTHREAD")
     downloadThread()
 
+print("GENERATE COMMANDS")
 
-j=5
-
+# Set command for download button press
+j=6
 for q in range(len(lst)):
-    exec(f"def dlNo{q}():\n\tdownloadTable(url=lst[{q}][j]")
+    exec(f"def dlNo{q}():\n\tdownloadTable(url=lst[{q}][{j}])")
+
+# Set command for webpage open
+j=5
+for q in range(len(lst)):
+    exec(f"def webP{q}():\n\tweb.open('https://{lst[q][j]}', autoraise=True)")
 
 
 def tableopen():
@@ -121,48 +130,51 @@ def tableopen():
     class Table: 
         
         def __init__(self, tablewin):
-            building = True
             info = ["Name", "Version", "Pixels", "Style", "Download"]
 
             for x in range(len(info)):
-                self.e = tk.Label(tablewin, text=info[x], fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle)
+                self.e = tk.Label(tablewin, text=info[x], fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold', 'underline'), relief=reliefStyle)
                 self.e.grid(row=0, column=x)
 
             for i in range(total_rows):
                 for j in range(total_columns):
+                    print("BUILDING\ti "+str(i)+"\t j "+str(j))
                     if j == 4:
-                        self.e = tk.Button(tablewin, text=lst[i][4] + 'mb', width=10, fg=lightColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle, activebackground=activeColor)
+                        self.e = tk.Button(tablewin, text=lst[i][4] + 'mb', width=10, fg=workingColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle, activebackground=activeColor)
                         exec('self.e["command"] = dlNo' + str(i))
                         print('EXEC\tself.e["command"] = dlNo' + str(i))
                         self.e.grid(row=i+1, column=j)
 
-                    elif j == 5:
+                    elif j == 5 or j == 6:
+                        print("BREAK")
                         break
 
                     elif j == 0:
-                        self.e = tk.Label(tablewin, text=lst[i][j], width=10, fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle) 
-                        self.e.grid(row=i+1, column=j) 
+                        self.e = tk.Button(tablewin, text=lst[i][j], width=10, fg=lightColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle) 
+                        exec('self.e["command"] = webP' + str(i))
+                        print('EXEC\tself.e["command"] = webP' + str(i))
+                        self.e.grid(row=i+1, column=j)
 
                     else:
                         self.e = tk.Label(tablewin, text=lst[i][j], width=10, fg=fgColor, bg=bgColor, font=('Calibri Light', 16), relief=reliefStyle) 
                         self.e.grid(row=i+1, column=j)
                 
-            building = False
-
     total_rows = len(lst) 
     total_columns = len(lst[0]) 
 
     tablewin = tk.Tk()
     tablewin.config(bg=bgColor)
     tablewin.title("Texturepacks")
-    fileDir = os.path.dirname(os.path.abspath(__file__))
-    parentDir = os.path.dirname(fileDir)
     t = Table(tablewin) 
     tablewin.mainloop() 
 
 def tablethread():
     tabletr = tr.Thread(target=tableopen)
     tabletr.start()
+
+def exitapp():
+    print("BYE!")
+    sys.exit(0)
 
 titleTxt = tk.Label(win, text="Styx MCTools", font=('Calibri Light', 50), bg=bgColor, fg=fgColor)
 titleTxt.pack()
@@ -176,7 +188,7 @@ urlInp.pack()
 dlBtn = tk.Button(win, text="Install from url", command=downloadThread, font=('Calibri Light', 20), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
 dlBtn.pack()
 
-exitBtn = tk.Button(win, text="Exit", command=sys.exit, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+exitBtn = tk.Button(win, text="Exit", command=exitapp, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
 exitBtn.pack()
 
 win.mainloop()
