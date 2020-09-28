@@ -211,9 +211,18 @@ def settingsopen():
     settingsTitle = tk.Label(settingsWin, text="MCTools Settings", font=('Calibri Light', 30), bg=bgColor, fg=fgColor)
     settingsTitle.pack()
 
-    themeTitle = tk.Label(settingsWin, text="Design", font=('Calibri Light', 20), bg=bgColor, fg=lightColor)
+    designTitle = tk.Label(settingsWin, text="Design", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
+    designTitle.pack()
+
+    themeTitle = tk.Label(settingsWin, text="Theme", font=('Calibri Light', 20), bg=bgColor, fg=fgColor)
     themeTitle.pack()
 
+    designTitle = tk.Label(settingsWin, text="Download", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
+    designTitle.pack()
+
+    designTitle = tk.Label(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=fgColor)
+    designTitle.pack()
+    
     settingsWin.mainloop()
 
 print("GENERATE GUI")
