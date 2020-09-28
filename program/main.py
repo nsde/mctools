@@ -13,6 +13,7 @@ from tkinter import messagebox
 # Program settings
 winTitle = "Styx MCTools"
 defaultFiletype = ".zip"
+downloadName = ""
 
 # Theme settings
 fgColor = "white"
@@ -68,9 +69,12 @@ except: # no connection etc.
         ]
 
 def download(url):
-    x = url.split("/")
-    filename = x[-1]
-    print("FILENAME\t" + filename)
+    global downloadName
+    print("DOWNLOADNAME \t" + downloadName)
+    if downloadName == "":
+        x = url.split("/")
+        downloadName = x[-1]
+    print("FILENAME\t" + downloadName)
     dlBtn['state'] = 'disabled'
     urlInp["bg"] = workingColor
 
@@ -81,7 +85,7 @@ def download(url):
 
         try:
             win.title(f"Installing {round(len(myfile.content)/1_048_576, 2)} mb ...")
-            installpath = f"{os.getenv('APPDATA')}\\.minecraft\\resourcepacks\\{filename}.zip"
+            installpath = f"{os.getenv('APPDATA')}\\.minecraft\\resourcepacks\\{downloadName}.zip"
             installpath = installpath.replace('\\','/')
             print("INSTALLPATH\t" + installpath)
             open(installpath, "wb").write(myfile.content)
@@ -90,7 +94,7 @@ def download(url):
             rd_instkb = round(install_kb, 2)
             win.title(f"Installed {rd_instkb} mb.")
             urlInp["bg"] = successColor
-            sleep(3)
+            sleep(1)
             urlInp.delete(0, "end")
             urlInp["bg"] = bgColor
 
@@ -111,7 +115,10 @@ def downloadThread():
     dlTr = tr.Thread(target=download(url=urlInp.get()))
     dlTr.start()
 
-def downloadTable(url):
+def downloadTable(url, dlN):
+    global downloadName
+    downloadName = dlN
+
     win.attributes("-topmost", True)
     print("DOWNLOADURL\t" + url)
 
@@ -124,13 +131,14 @@ def downloadTable(url):
     urlInp.insert("end", url)
     print("STARTING DLTHREAD")
     downloadThread()
+    return downloadName
 
 print("GENERATE COMMANDS")
 
 # Set command for download button press
 j=6
 for q in range(len(lst)):
-    exec(f"def dlNo{q}():\n\tdownloadTable(url=lst[{q}][{j}])")
+    exec(f"def dlNo{q}():\n\tdownloadName = lst[{q}][{0}] + '-' + str(lst[{q}][{1}]) + '-' + str(lst[{q}][{2}]) + 'x'\n\tdownloadTable(url=lst[{q}][{j}], dlN=downloadName)")
 
 # Set command for webpage open
 j=5
@@ -190,6 +198,24 @@ def exitapp():
     print("BYE!")
     sys.exit(0)
 
+def gh():
+    print("GITHUB")
+    web.open("https://github.com/nsde/mctools")
+
+def settingsopen():
+    print("SETTINGS")
+    settingsWin = tk.Tk()
+    settingsWin.title(winTitle)
+    settingsWin["bg"] = bgColor
+
+    settingsTitle = tk.Label(settingsWin, text="MCTools Settings", font=('Calibri Light', 30), bg=bgColor, fg=fgColor)
+    settingsTitle.pack()
+
+    themeTitle = tk.Label(settingsWin, text="Design", font=('Calibri Light', 20), bg=bgColor, fg=lightColor)
+    themeTitle.pack()
+
+    settingsWin.mainloop()
+
 print("GENERATE GUI")
 
 titleTxt = tk.Label(win, text="Styx MCTools", font=('Calibri Light', 50), bg=bgColor, fg=fgColor)
@@ -204,8 +230,12 @@ urlInp.pack()
 dlBtn = tk.Button(win, text="Install from url", command=downloadThread, font=('Calibri Light', 20), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
 dlBtn.pack()
 
-exitBtn = tk.Button(win, text="Exit", command=exitapp, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
-exitBtn.pack()
+ghBtn = tk.Button(win, text="Information", command=gh, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+ghBtn.pack()
+
+ghBtn = tk.Button(win, text="Settings", command=settingsopen, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+ghBtn.pack()
+
 
 print("MAINLOOP")
 

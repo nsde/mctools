@@ -1,2 +1,1 @@
-x = "...h..ee..llo."
-print(x.strip("."))
+import faster_than_requests
