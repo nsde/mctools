@@ -27,9 +27,11 @@ reliefStyle = "flat"
 
 # Windows configuration
 win = tk.Tk()
-
+settingsWin = tk.Tk()
 tablewin = tk.Tk()
+
 tablewin.destroy()
+settingsWin.destroy()
 
 fileDir = os.path.dirname(os.path.abspath(__file__))
 parentDir = os.path.dirname(fileDir)
@@ -187,7 +189,7 @@ def tableopen():
     tablewin = tk.Tk()
     tablewin.config(bg=bgColor)
     tablewin.title("Texturepacks")
-    t = Table(tablewin) 
+    t = Table(tablewin)
     tablewin.mainloop() 
 
 def tablethread():
@@ -202,8 +204,16 @@ def gh():
     print("GITHUB")
     web.open("https://github.com/nsde/mctools")
 
+def settingChangesInfo():
+    changesReminder = tk.Label(settingsWin, text="The settings will apply at the next program start.", font=('Calibri Light', 10), bg=activeColor, fg=fgColor)
+    changesReminder.pack()
+
+def chunkDlButtonClicked():
+    settingChangesInfo()
+
 def settingsopen():
     print("SETTINGS")
+
     settingsWin = tk.Tk()
     settingsWin.title(winTitle)
     settingsWin["bg"] = bgColor
@@ -220,7 +230,9 @@ def settingsopen():
     designTitle = tk.Label(settingsWin, text="Download", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
     designTitle.pack()
 
-    designTitle = tk.Label(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=fgColor)
+    doChunkdl = tk.IntVar()
+
+    designTitle = tk.Checkbutton(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=fgColor, variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
     designTitle.pack()
     
     settingsWin.mainloop()
