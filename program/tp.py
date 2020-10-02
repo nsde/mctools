@@ -24,33 +24,34 @@ with open(parentDir + "\\src\\theme.py") as themefile:
     for line in themecont:
         exec(line)
 
+try:
+    lstweb = rq.get("https://pastebin.com/raw/gJndewWa")
+    lst = lstweb.text
+    lst = json.loads(lst)
+    print(lst)
 
+except: # no connection etc.
+    # demo for testing
+    print("CONNECTION ERROR")
+    lst=[
+            ["Default","1.0","1","DEMO","0","google.com","https://google.com/"],
+            ["Default","1.0","2","DEMO","0","google.com","https://google.com/"],
+            ["Default","1.0","3","DEMO","0","google.com","https://google.com/"]
+        ]    
+        
+# Set command for download button press
+j=6
+downloadName = ""
+for q in range(len(lst)):
+    exec(f"def dlNo{q}():\n\tdownloadName = lst[{q}][{0}] + '-' + str(lst[{q}][{1}]) + '-' + str(lst[{q}][{2}]) + 'x'\n\tmain.downloadTable(url=lst[{q}][{j}], dlN=downloadName)")
+    print(f"COMMANDRANGE\t{q}")
+
+# Set command for webpage open
+j=5
+for q in range(len(lst)):
+    exec(f"def webP{q}():\n\tweb.open('https://{lst[q][j]}', autoraise=True)")
 
 def tableopen():
-    try:
-        lstweb = rq.get("https://pastebin.com/raw/gJndewWa")
-        lst = lstweb.text
-        lst = json.loads(lst)
-        print(lst)
-
-    except: # no connection etc.
-        # demo for testing
-        print("CONNECTION ERROR")
-        lst=[
-                ["Default","1.0","1","DEMO","0","google.com","https://google.com/"],
-                ["Default","1.0","2","DEMO","0","google.com","https://google.com/"],
-                ["Default","1.0","3","DEMO","0","google.com","https://google.com/"]
-            ]
-
-    # Set command for download button press
-    j=6
-    for q in range(len(lst)):
-        exec(f"def dlNo{q}():\n\tdownloadName = lst[{q}][{0}] + '-' + str(lst[{q}][{1}]) + '-' + str(lst[{q}][{2}]) + 'x'\n\tdownloadTable(url=lst[{q}][{j}], dlN=downloadName)")
-
-    # Set command for webpage open
-    j=5
-    for q in range(len(lst)):
-        exec(f"def webP{q}():\n\tweb.open('https://{lst[q][j]}', autoraise=True)")
 
             
     print("GENERATE TABLE")

@@ -17,6 +17,8 @@ errorColor = "#f4494f"
 successColor = "#15a534"
 reliefStyle = "flat"
 
+chunkDlsetting = 0
+
 with open(parentDir + "\\src\\theme.py") as themefile:
     themecont = themefile.readlines()
     for line in themecont:
@@ -30,6 +32,7 @@ def settingChangesInfo():
     changesReminder.pack()
 
 def chunkDlButtonClicked():
+    print("SETTINGS\tchanged")
     settingChangesInfo()
 
 def settingsopen():
@@ -53,7 +56,7 @@ def settingsopen():
 
     doChunkdl = tk.IntVar()
 
-    designTitle = tk.Checkbutton(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=fgColor, variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
+    designTitle = tk.Checkbutton(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=lightColor, variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
     designTitle.pack()
     
     settingsWin.mainloop()

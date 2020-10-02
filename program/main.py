@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 appVersion = 2
 
 import tp
