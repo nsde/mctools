@@ -18,20 +18,17 @@ winTitle = "Styx MCTools"
 defaultFiletype = ".zip"
 downloadName = ""
 
+# Path settings
+fileDir = os.path.dirname(os.path.abspath(__file__))
+parentDir = os.path.dirname(fileDir)
+
 # Theme settings
 def settheme():
-    global fgColor, bgColor, lightColor, activeColor, workingColor, errorColor, successColor, reliefStyle
+    with open(parentDir + "\\src\\theme.py") as themefile:
+        themecont = themefile.readlines()
+        for line in themecont:
+            exec(line)
 
-    fgColor = "white"
-    bgColor = "#212121"
-    lightColor = "#3e7fef"
-    activeColor = "#2b2b2b"
-    workingColor = "#ab1bd3"
-    errorColor = "#f4494f"
-    successColor = "#15a534"
-    reliefStyle = "flat"
-
-    return 
 settheme()
 
 # Windows configuration
@@ -41,9 +38,6 @@ tablewin = tk.Tk()
 
 tablewin.destroy()
 settingsWin.destroy()
-
-fileDir = os.path.dirname(os.path.abspath(__file__))
-parentDir = os.path.dirname(fileDir)
 
 winIcon = tk.PhotoImage(file = parentDir + '\\src\\main.png')
 win.title(winTitle)
