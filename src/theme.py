@@ -6,4 +6,4 @@ workingColor = "#ab1bd3"
 errorColor = "#f4494f"
 successColor = "#15a534"
 reliefStyle = "flat"
-print("THEME\tload sucessfully.")
+print(f"THEME\tload sucessfully @{__name__}.")

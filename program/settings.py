@@ -1,8 +1,36 @@
 import main
 
+import os
 import tkinter as tk
 
-main.settheme()
+winTitle = "Styx MCTools"
+
+fileDir = os.path.dirname(os.path.abspath(__file__))
+parentDir = os.path.dirname(fileDir)
+
+fgColor = "white"
+bgColor = "red"
+lightColor = "#3e7fef"
+activeColor = "#2b2b2b"
+workingColor = "#ab1bd3"
+errorColor = "#f4494f"
+successColor = "#15a534"
+reliefStyle = "flat"
+
+with open(parentDir + "\\src\\theme.py") as themefile:
+    themecont = themefile.readlines()
+    for line in themecont:
+        exec(line)
+
+
+def settingChangesInfo():
+    settingsWin = tk.Tk()
+    settingsWin.destroy()
+    changesReminder = tk.Label(settingsWin, text="The settings will apply at the next program start.", font=('Calibri Light', 10), bg=activeColor, fg=fgColor)
+    changesReminder.pack()
+
+def chunkDlButtonClicked():
+    settingChangesInfo()
 
 def settingsopen():
     print("SETTINGS")

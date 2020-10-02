@@ -1,17 +1,29 @@
 import main
+
+import os
 import json
 import tkinter as tk
 import requests as rq
 
-# Set command for download button press
-j=6
-for q in range(len(lst)):
-    exec(f"def dlNo{q}():\n\tdownloadName = lst[{q}][{0}] + '-' + str(lst[{q}][{1}]) + '-' + str(lst[{q}][{2}]) + 'x'\n\tdownloadTable(url=lst[{q}][{j}], dlN=downloadName)")
+fileDir = os.path.dirname(os.path.abspath(__file__))
+parentDir = os.path.dirname(fileDir)
 
-# Set command for webpage open
-j=5
-for q in range(len(lst)):
-    exec(f"def webP{q}():\n\tweb.open('https://{lst[q][j]}', autoraise=True)")
+
+
+fgColor = "white"
+bgColor = "red"
+lightColor = "#3e7fef"
+activeColor = "#2b2b2b"
+workingColor = "#ab1bd3"
+errorColor = "#f4494f"
+successColor = "#15a534"
+reliefStyle = "flat"
+
+with open(parentDir + "\\src\\theme.py") as themefile:
+    themecont = themefile.readlines()
+    for line in themecont:
+        exec(line)
+
 
 
 def tableopen():
@@ -29,6 +41,17 @@ def tableopen():
                 ["Default","1.0","2","DEMO","0","google.com","https://google.com/"],
                 ["Default","1.0","3","DEMO","0","google.com","https://google.com/"]
             ]
+
+    # Set command for download button press
+    j=6
+    for q in range(len(lst)):
+        exec(f"def dlNo{q}():\n\tdownloadName = lst[{q}][{0}] + '-' + str(lst[{q}][{1}]) + '-' + str(lst[{q}][{2}]) + 'x'\n\tdownloadTable(url=lst[{q}][{j}], dlN=downloadName)")
+
+    # Set command for webpage open
+    j=5
+    for q in range(len(lst)):
+        exec(f"def webP{q}():\n\tweb.open('https://{lst[q][j]}', autoraise=True)")
+
             
     print("GENERATE TABLE")
     # Create texturepack list
