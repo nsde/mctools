@@ -3,6 +3,7 @@
 appVersion = 2
 
 import tp
+import dl
 import settings
 
 import os
@@ -11,9 +12,14 @@ import json
 import tkinter as tk
 import requests as rq
 import threading as tr
-from time import sleep
 import webbrowser as web
+
+from time import sleep
 from tkinter import messagebox
+
+# Execute function
+def exe(x):
+    exec(x)
 
 # Program settings
 winTitle = "Styx MCTools"
@@ -25,7 +31,6 @@ fileDir = os.path.dirname(os.path.abspath(__file__))
 parentDir = os.path.dirname(fileDir)
 
 # Theme settings
-
 fgColor = "white"
 bgColor = "red"
 lightColor = "#3e7fef"
@@ -40,11 +45,14 @@ with open(parentDir + "\\src\\theme.py") as themefile:
     for line in themecont:
         exec(line)
             
-
 # Windows configuration
 win = tk.Tk()
 settingsWin = tk.Tk()
 tablewin = tk.Tk()
+print(f"STARTED\tby @{__name__}")
+
+if __name__ == "__main__":
+    win.destroy()
 
 tablewin.destroy()
 settingsWin.destroy()
@@ -60,7 +68,7 @@ try:
     newestVersion = int(updc.text)
 
     if appVersion != newestVersion:
-        if tk.messagebox.askokcancel(title="WARNING", message="There is a newer version avaiable. Do you want to download it?"):
+        if tk.messagebox.askokcancel(title="Version outdated", message=f"Version {newestVersion} avaiable. Do you want to download it?"):
             web.open("https://github.com/nsde/mctools/releases/")
 
 except:
@@ -70,48 +78,6 @@ except:
 # Load list of texturepacks
 
 
-def download(url):
-    global downloadName
-    print("DOWNLOADNAME \t" + downloadName)
-    if downloadName == "":
-        x = url.split("/")
-        downloadName = x[-1]
-    print("FILENAME\t" + downloadName)
-    dlBtn['state'] = 'disabled'
-    urlInp["bg"] = workingColor
-
-    try:
-        win.title("Downloading...")
-        myfile = rq.get(url)
-        urlInp["bg"] = successColor
-
-        try:
-            win.title(f"Installing {round(len(myfile.content)/1_048_576, 2)} mb ...")
-            installpath = f"{os.getenv('APPDATA')}\\.minecraft\\resourcepacks\\{downloadName}.zip"
-            installpath = installpath.replace('\\','/')
-            print("INSTALLPATH\t" + installpath)
-            open(installpath, "wb").write(myfile.content)
-
-            install_kb = len(myfile.content)/1_048_576
-            rd_instkb = round(install_kb, 2)
-            win.title(f"Installed {rd_instkb} mb.")
-            urlInp["bg"] = successColor
-            sleep(1)
-            urlInp.delete(0, "end")
-            urlInp["bg"] = bgColor
-
-        except:
-            urlInp["bg"] = errorColor
-            tk.messagebox.showerror(title="ERROR", message="could not install")
-
-    except:
-        urlInp["bg"] = errorColor
-        tk.messagebox.showerror(title="ERROR", message="instable connection to url")
-
-    finally:
-        urlInp.delete(0, "end")
-
-    dlBtn['state'] = 'normal'
 
 def downloadThread():
     dlTr = tr.Thread(target=download(url=urlInp.get()))
@@ -179,3 +145,4 @@ ghBtn.pack()
 print("MAINLOOP")
 
 win.mainloop()
+print("IN MAINLOOP")

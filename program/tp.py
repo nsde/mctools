@@ -52,8 +52,6 @@ for q in range(len(lst)):
     exec(f"def webP{q}():\n\tweb.open('https://{lst[q][j]}', autoraise=True)")
 
 def tableopen():
-
-            
     print("GENERATE TABLE")
     # Create texturepack list
     class Table: 
