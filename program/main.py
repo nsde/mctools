@@ -77,10 +77,8 @@ except:
 
 # Load list of texturepacks
 
-
-
 def downloadThread():
-    dlTr = tr.Thread(target=download(url=urlInp.get()))
+    dlTr = tr.Thread(target=dl.download(url=urlInp.get()))
     dlTr.start()
 
 def downloadTable(url, dlN):

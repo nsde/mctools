@@ -8,7 +8,7 @@ import requests as rq
 fileDir = os.path.dirname(os.path.abspath(__file__))
 parentDir = os.path.dirname(fileDir)
 
-
+print(f"TP\tloaded sucessfully @{__name__}")
 
 fgColor = "white"
 bgColor = "red"
