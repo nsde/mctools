@@ -1,9 +1,8 @@
 import os
 import main
 
-import requests as rq
-
-from time import sleep
+import time
+import requests
 
 print(f"DL\tloaded sucessfully @{__name__}")
 
@@ -22,7 +21,7 @@ def download(url):
 
 #try:
     main.exe(x='win.title("Downloading...")')
-    myfile = rq.get(url)
+    myfile = requests.get(url)
     main.exe(x='urlInp["bg"] = successColor')
 
 #try:
@@ -36,7 +35,7 @@ def download(url):
     rd_instkb = round(install_kb, 2)
     main.exe(x=f'win.title("Installed {rd_instkb} mb.")')
     main.exe(x='urlInp["bg"] = successColor')
-    sleep(1)
+    time.sleep(1)
     main.exe(x='urlInp.delete(0, "end")')
     main.exe(x='urlInp["bg"] = bgColor')
 

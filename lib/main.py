@@ -2,19 +2,17 @@
 
 appVersion = 2
 
-import tp
-import dl
+import textures
+import download
 import settings
 
 import os
 import sys
-import json
-import tkinter as tk
-import requests as rq
-import threading as tr
+import tkinter
+import requests
+import threading
 import webbrowser as web
 
-from time import sleep
 from tkinter import messagebox
 
 # Execute function
@@ -64,7 +62,7 @@ win.iconphoto(False, winIcon)
 
 print("UPDATE CHECKER")
 try:
-    updc = rq.get("https://raw.githubusercontent.com/nsde/files/master/texturepacks/appversion")
+    updc = requests.get("https://raw.githubusercontent.com/nsde/files/master/texturepacks/appversion")
     newestVersion = int(updc.text)
 
     if appVersion != newestVersion:
@@ -78,7 +76,7 @@ except:
 # Load list of texturepacks
 
 def downloadThread():
-    dlTr = tr.Thread(target=dl.download(url=urlInp.get()))
+    dlTr = threading.Thread(target=dl.download(url=urlInp.get()))
     dlTr.start()
 
 def downloadTable(url, dlN):
@@ -105,7 +103,7 @@ def tableopen():
     tp.tableopen()
 
 def tablethread():
-    tabletr = tr.Thread(target=tableopen)
+    tabletr = threading.Thread(target=tableopen)
     tabletr.start()
 
 def exitapp():

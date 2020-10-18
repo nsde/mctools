@@ -1,7 +1,7 @@
 import main
 
 import os
-import tkinter as tk
+import tkinter
 
 winTitle = "Styx MCTools"
 
@@ -26,9 +26,9 @@ with open(parentDir + "\\src\\theme.py") as themefile:
 
 
 def settingChangesInfo():
-    settingsWin = tk.Tk()
+    settingsWin = tkinter.Tk()
     settingsWin.destroy()
-    changesReminder = tk.Label(settingsWin, text="The settings will apply at the next program start.", font=('Calibri Light', 10), bg=activeColor, fg=fgColor)
+    changesReminder = tkinter.Label(settingsWin, text="The settings will apply at the next program start.", font=('Calibri Light', 10), bg=activeColor, fg=fgColor)
     changesReminder.pack()
 
 def chunkDlButtonClicked():
@@ -38,25 +38,25 @@ def chunkDlButtonClicked():
 def settingsopen():
     print("SETTINGS")
 
-    settingsWin = tk.Tk()
+    settingsWin = tkinter.Tk()
     settingsWin.title(winTitle)
     settingsWin["bg"] = bgColor
 
-    settingsTitle = tk.Label(settingsWin, text="MCTools Settings", font=('Calibri Light', 30), bg=bgColor, fg=fgColor)
+    settingsTitle = tkinter.Label(settingsWin, text="MCTools Settings", font=('Calibri Light', 30), bg=bgColor, fg=fgColor)
     settingsTitle.pack()
 
-    designTitle = tk.Label(settingsWin, text="Design", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
+    designTitle = tkinter.Label(settingsWin, text="Design", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
     designTitle.pack()
 
-    themeTitle = tk.Label(settingsWin, text="Theme", font=('Calibri Light', 20), bg=bgColor, fg=fgColor)
+    themeTitle = tkinter.Label(settingsWin, text="Theme", font=('Calibri Light', 20), bg=bgColor, fg=fgColor)
     themeTitle.pack()
 
-    designTitle = tk.Label(settingsWin, text="Download", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
+    designTitle = tkinter.Label(settingsWin, text="Download", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
     designTitle.pack()
 
-    doChunkdl = tk.IntVar()
+    doChunkdl = tkinter.IntVar()
 
-    designTitle = tk.Checkbutton(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=lightColor, variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
+    designTitle = tkinter.Checkbutton(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=lightColor, variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
     designTitle.pack()
     
     settingsWin.mainloop()
