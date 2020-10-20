@@ -37,6 +37,9 @@ def chunkDlButtonClicked():
 def aquaTheme():
     settingChangesInfo()
 
+def __init__():
+    print("INIT. I'm honest, I have no idea what this works, but it fixed my Attribute/Import error. Somehow.")
+
 def open():
     print("SETTINGS")
 
