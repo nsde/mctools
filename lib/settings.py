@@ -26,13 +26,14 @@ with open(parentDir + "\\src\\theme.py") as themefile:
 
 
 def settingChangesInfo():
-    settingsWin = tkinter.Tk()
-    settingsWin.destroy()
-    changesReminder = tkinter.Label(settingsWin, text="The settings will apply at the next program start.", font=('Calibri Light', 10), bg=activeColor, fg=fgColor)
-    changesReminder.pack()
+    print("SETTINGCHANGEINFO")
+    tkinter.messagebox.askyesno(title="Restart to apply?", message=f"The settings will apply at the next program start. Do you wish to restart the program now?")
 
 def chunkDlButtonClicked():
     print("SETTINGS\tchanged")
+    settingChangesInfo()
+
+def aquaTheme():
     settingChangesInfo()
 
 def settingsopen():
@@ -48,15 +49,17 @@ def settingsopen():
     designTitle = tkinter.Label(settingsWin, text="Design", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
     designTitle.pack()
 
-    themeTitle = tkinter.Label(settingsWin, text="Theme", font=('Calibri Light', 20), bg=bgColor, fg=fgColor)
-    themeTitle.pack()
+    aquaThemeBtn = tkinter.Button(settingsWin, text="Blue (Default)", command=aquaTheme, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+    aquaThemeBtn.pack()
+
+    aquaThemeBtn = tkinter.Button(settingsWin, text="Purple", command=aquaTheme, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+    aquaThemeBtn.pack()
 
     designTitle = tkinter.Label(settingsWin, text="Download", font=('Calibri Light', 25), bg=bgColor, fg=lightColor)
     designTitle.pack()
-
+    
     doChunkdl = tkinter.IntVar()
-
-    designTitle = tkinter.Checkbutton(settingsWin, text="Chunk download", font=('Calibri Light', 20), bg=bgColor, fg=lightColor, variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
+    designTitle = tkinter.Checkbutton(settingsWin, text="[Beta] Chunk download", font=('Calibri Light', 20), bg=bgColor, fg="white", variable=doChunkdl, onvalue=1, offvalue=0, command=chunkDlButtonClicked)
     designTitle.pack()
     
     settingsWin.mainloop()

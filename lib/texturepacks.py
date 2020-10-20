@@ -2,7 +2,7 @@ import main
 
 import os
 import json
-import tkinter as tk
+import tkinter
 import requests as rq
 
 fileDir = os.path.dirname(os.path.abspath(__file__))
@@ -60,14 +60,14 @@ def tableopen():
             info = ["Name", "Version", "Pixels", "Style", "Download"]
 
             for x in range(len(info)):
-                self.e = tk.Label(tablewin, text=info[x], fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold', 'underline'), relief=reliefStyle)
+                self.e = tkinter.Label(tablewin, text=info[x], fg=fgColor, bg=bgColor, font=('Calibri Light', 16, 'bold', 'underline'), relief=reliefStyle)
                 self.e.grid(row=0, column=x)
 
             for i in range(total_rows):
                 for j in range(total_columns):
                     print("BUILDING\ti "+str(i)+"\t j "+str(j))
                     if j == 4:
-                        self.e = tk.Button(tablewin, text=lst[i][4] + 'mb', width=10, fg=workingColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle, activebackground=activeColor)
+                        self.e = tkinter.Button(tablewin, text=lst[i][4] + 'mb', width=10, fg=workingColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle, activebackground=activeColor)
                         exec('self.e["command"] = dlNo' + str(i))
                         print('EXEC\tself.e["command"] = dlNo' + str(i))
                         self.e.grid(row=i+1, column=j)
@@ -77,19 +77,19 @@ def tableopen():
                         break
 
                     elif j == 0:
-                        self.e = tk.Button(tablewin, text=lst[i][j], width=10, fg=lightColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle) 
+                        self.e = tkinter.Button(tablewin, text=lst[i][j], width=10, fg=lightColor, bg=bgColor, font=('Calibri Light', 16, 'bold'), relief=reliefStyle) 
                         exec('self.e["command"] = webP' + str(i))
                         print('EXEC\tself.e["command"] = webP' + str(i))
                         self.e.grid(row=i+1, column=j)
 
                     else:
-                        self.e = tk.Label(tablewin, text=lst[i][j], width=10, fg=fgColor, bg=bgColor, font=('Calibri Light', 16), relief=reliefStyle) 
+                        self.e = tkinter.Label(tablewin, text=lst[i][j], width=10, fg=fgColor, bg=bgColor, font=('Calibri Light', 16), relief=reliefStyle) 
                         self.e.grid(row=i+1, column=j)
                 
     total_rows = len(lst) 
     total_columns = len(lst[0]) 
 
-    tablewin = tk.Tk()
+    tablewin = tkinter.Tk()
     tablewin.config(bg=bgColor)
     tablewin.title("Texturepacks")
     t = Table(tablewin)
