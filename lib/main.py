@@ -2,7 +2,7 @@
 
 appVersion = 2
 
-import options
+import settings
 import downloader
 import texturepacks
 
@@ -81,11 +81,6 @@ def downloadTable(url, dlN):
     win.attributes("-topmost", True)
     print("DOWNLOADURL\t" + url)
 
-    try:
-        tablewin.destroy()
-    except:
-        pass
-
     urlInp.delete(0, "end")
     urlInp.insert("end", url)
     print("STARTING DLTHREAD")
@@ -110,7 +105,7 @@ def gh():
     web.open("https://github.com/nsde/mctools")
 
 def doSettingsOpen():
-    options.open()
+    settings.open()
 
 print("GENERATE GUI")
 
