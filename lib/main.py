@@ -2,7 +2,7 @@
 
 appVersion = 2
 
-import settings
+import options
 import downloader
 import texturepacks
 
@@ -12,6 +12,8 @@ import tkinter
 import requests
 import threading
 import webbrowser as web
+from tkinter import messagebox # because getting AttributeErrors without
+
 
 # Execute function
 def exe(x):
@@ -43,15 +45,10 @@ with open(parentDir + "\\src\\theme.py") as themefile:
             
 # Windows configuration
 win = tkinter.Tk()
-settingsWin = tkinter.Tk()
-tablewin = tkinter.Tk()
 print(f"STARTED\tby @{__name__}")
 
 if __name__ == "__main__":
     win.destroy()
-
-tablewin.destroy()
-settingsWin.destroy()
 
 winIcon = tkinter.PhotoImage(file = parentDir + '\\src\\main.png')
 win.title(winTitle)
@@ -112,31 +109,30 @@ def gh():
     print("GITHUB")
     web.open("https://github.com/nsde/mctools")
 
-def settingsopen():
-    settings.settingsopen()
+def doSettingsOpen():
+    options.open()
 
 print("GENERATE GUI")
 
 titleTxt = tkinter.Label(win, text="Styx MCTools", font=('Calibri Light', 50), bg=bgColor, fg=fgColor)
 titleTxt.pack()
 
-tableBtn = tkinter.Button(win, text="Open texturepacks", command=tablethread, font=('Calibri Light', 20), bg=bgColor, fg=lightColor, relief=reliefStyle, activebackground=activeColor)
+tableBtn = tkinter.Button(win, text="Resourcepacks", command=tablethread, font=('Calibri Light', 20), bg=bgColor, fg=lightColor, relief=reliefStyle, activebackground=activeColor)
 tableBtn.pack()
 
 urlInp = tkinter.Entry(win, font=('Calibri Light', 0), bg=bgColor, fg=fgColor, relief="groove")
 urlInp.pack()
 
-dlBtn = tkinter.Button(win, text="Install from url", command=downloadThread, font=('Calibri Light', 20), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+dlBtn = tkinter.Button(win, text="Install", command=downloadThread, font=('Calibri Light', 20), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
 dlBtn.pack()
 
 ghBtn = tkinter.Button(win, text="Information", command=gh, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
 ghBtn.pack()
 
-ghBtn = tkinter.Button(win, text="Settings", command=settingsopen, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
-ghBtn.pack()
+settingsBtn = tkinter.Button(win, text="Settings", command=doSettingsOpen, font=('Calibri Light', 15), bg=bgColor, fg=fgColor, relief=reliefStyle, activebackground=activeColor)
+settingsBtn.pack()
 
 
 print("MAINLOOP")
-
 win.mainloop()
 print("IN MAINLOOP")

@@ -2,6 +2,7 @@ import main
 
 import os
 import tkinter
+from tkinter import messagebox # because getting AttributeErrors without
 
 winTitle = "Styx MCTools"
 
@@ -36,7 +37,7 @@ def chunkDlButtonClicked():
 def aquaTheme():
     settingChangesInfo()
 
-def settingsopen():
+def open():
     print("SETTINGS")
 
     settingsWin = tkinter.Tk()
